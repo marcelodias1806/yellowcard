@@ -1,0 +1,45 @@
+# PlatformIO build products and caches
+.pio/
+.pioenvs/
+.piolibdeps/
+*.bin
+*.elf
+*.hex
+*.map
+*.uf2
+
+# Original firmware dumps and local backups
+backup/
+
+# Python and local tool environments
+.venv/
+.venv*/
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Editor and operating-system state
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Local secrets and environment configuration
+include/wifi_secrets.h
+include/api_config.h
+.env
+.env.*
+!.env.example
+*secrets*.json
+*credentials*.json
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local framework configuration
+sdkconfig
+sdkconfig.*
