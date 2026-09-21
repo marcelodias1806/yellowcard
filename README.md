@@ -140,6 +140,17 @@ and [architecture documentation](docs/architecture.md) for technical details.
 | Wi-Fi | 2.4 GHz 802.11 b/g/n |
 | Bluetooth | ESP32 Bluetooth/BLE radio; NimBLE observer role used |
 
+YellowCard v0.4.0 was validated on an ESP32-2432S028 Cheap Yellow Display
+variant with ST7789 display and XPT2046 resistive touchscreen.
+
+<p align="center">
+  <img src="docs/images/yellowcard-hardware-front.jpg" width="280">
+  <img src="docs/images/yellowcard-hardware-back.jpg" width="280">
+</p>
+
+See [Hardware documentation](docs/hardware.md) for the validated board,
+pinout and CYD variant notes.
+
 Cheap Yellow Display variants are not electrically or functionally identical.
 This repository is validated specifically against the **ST7789 / 2-USB style
 variant** used during development. Other ESP32-2432S028 boards may use an
