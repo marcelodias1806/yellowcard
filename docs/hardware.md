@@ -17,6 +17,37 @@ ESP32 Cheap Yellow Display / ESP32-2432S028 variant with:
 | USB serial | CH340 |
 | Radio | 2.4 GHz Wi-Fi and Bluetooth/BLE |
 
+## Validated hardware
+
+The firmware documented in this repository was physically validated on the
+ESP32-2432S028 board shown below.
+
+### Front
+
+![YellowCard hardware front](images/yellowcard-hardware-front.jpg)
+
+### Back / PCB
+
+![YellowCard hardware back](images/yellowcard-hardware-back.jpg)
+
+The tested board includes:
+
+- ESP32-WROOM-32 module
+- 2.8-inch 240×320 resistive touchscreen
+- ST7789 display controller configuration used by this project
+- XPT2046-compatible resistive touch controller
+- 4 MB flash
+- No PSRAM
+- USB-C and Micro-USB connectors
+- microSD slot
+- onboard RGB LED
+- speaker connector
+- external expansion connectors
+
+> Cheap Yellow Display boards exist in multiple hardware revisions.
+> Visually compare your PCB with the board above before assuming the
+> display and touchscreen configuration is identical.
+
 ## Variant Warning
 
 “ESP32-2432S028” and “Cheap Yellow Display” identify a family, not one
