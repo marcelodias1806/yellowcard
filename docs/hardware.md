@@ -24,11 +24,11 @@ ESP32-2432S028 board shown below.
 
 ### Front
 
-![YellowCard hardware front](images/yellowcard-hardware-front.jpg)
+![YellowCard hardware front](images/hardware-front.jpg)
 
 ### Back / PCB
 
-![YellowCard hardware back](images/yellowcard-hardware-back.jpg)
+![YellowCard hardware back](images/hardware-back.jpg)
 
 The tested board includes:
 
