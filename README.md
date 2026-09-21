@@ -23,6 +23,46 @@ The v0.4.0 firmware has been validated on physical hardware. Discovery
 features are deliberately passive: YellowCard does not capture traffic,
 inject packets, deauthenticate clients, or connect to unknown devices.
 
+## YellowCard in action
+
+YellowCard running on a validated ESP32-2432S028 / Cheap Yellow Display with ST7789 display and XPT2046 resistive touchscreen.
+
+### Interactive badge
+
+![YellowCard Badge](docs/images/yellowcard-badge.jpg)
+
+Personal badge with QR code, online status and direct navigation to contact and RF functions.
+
+### Contacts
+
+![YellowCard Contacts](docs/images/yellowcard-contacts.jpg)
+
+Dedicated contact screen with LinkedIn and Instagram information.
+
+### RF environment
+
+![YellowCard RF Environment](docs/images/yellowcard-rf-environment.jpg)
+
+Unified RF menu providing access to passive Wi-Fi and BLE discovery.
+
+### Wi-Fi environment
+
+![YellowCard Wi-Fi Environment](docs/images/yellowcard-wifi-environment.jpg)
+
+Passive 2.4 GHz Wi-Fi scan showing network count, strongest access point, security summary and busiest channels.
+
+### Top Wi-Fi networks
+
+![YellowCard Top Wi-Fi Networks](docs/images/yellowcard-wifi-top-networks.jpg)
+
+The eight strongest detected Wi-Fi networks, including RSSI, channel and security type.
+
+### BLE environment
+
+![YellowCard BLE Environment](docs/images/yellowcard-ble-environment.jpg)
+
+Passive BLE advertisement discovery with device count, strongest signal and quick access to the strongest detected devices.
+
 ## Features
 
 ### Interactive Badge
