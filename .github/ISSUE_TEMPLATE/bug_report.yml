@@ -1,0 +1,107 @@
+name: Bug report
+description: Report a reproducible YellowCard problem
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Remove passwords, private SSIDs, tokens,
+        private IP addresses, device identifiers, and other sensitive data from
+        logs and screenshots before submitting.
+
+  - type: input
+    id: firmware
+    attributes:
+      label: Firmware version or commit
+      description: Provide a release tag such as v0.4.0 or a commit hash.
+      placeholder: v0.4.0
+    validations:
+      required: true
+
+  - type: input
+    id: board
+    attributes:
+      label: Board variant
+      description: Include the exact CYD model/revision and USB connector style.
+      placeholder: ESP32-2432S028, 2-USB style
+    validations:
+      required: true
+
+  - type: dropdown
+    id: display
+    attributes:
+      label: Display controller
+      options:
+        - ST7789
+        - ILI9341
+        - Unknown
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: platformio
+    attributes:
+      label: PlatformIO version
+      description: Run `pio --version`.
+      placeholder: PlatformIO Core x.y.z
+    validations:
+      required: true
+
+  - type: dropdown
+    id: validation
+    attributes:
+      label: Where does the issue occur?
+      options:
+        - Physical hardware
+        - Build only
+        - Both build and physical hardware
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide the smallest repeatable sequence.
+      placeholder: |
+        1. Power the device
+        2. Open ...
+        3. Tap ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized serial/build logs
+      description: Do not include passwords, private SSIDs, tokens, private IPs, or full device identifiers.
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: I verified that logs and screenshots contain no credentials or private infrastructure data.
+          required: true
+        - label: I searched existing issues for the same problem.
+          required: true
+        - label: I have not changed the validated pinout/calibration unless that change is part of this report.
+          required: true

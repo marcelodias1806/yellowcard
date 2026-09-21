@@ -7,6 +7,8 @@
 *.hex
 *.map
 *.uf2
+*.rom
+*.dump
 
 # Original firmware dumps and local backups
 backup/
@@ -26,6 +28,10 @@ __pycache__/
 Thumbs.db
 *.swp
 *.swo
+*.tmp
+*.bak
+*~
+*.log
 
 # Local secrets and environment configuration
 include/wifi_secrets.h
@@ -37,8 +43,17 @@ include/api_config.h
 *credentials*.json
 *.pem
 *.key
+*.crt
+*.cer
+*.der
 *.p12
 *.pfx
+*.jks
+*.ppk
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
 
 # Local framework configuration
 sdkconfig
