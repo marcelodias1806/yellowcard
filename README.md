@@ -144,8 +144,8 @@ YellowCard v0.4.0 was validated on an ESP32-2432S028 Cheap Yellow Display
 variant with ST7789 display and XPT2046 resistive touchscreen.
 
 <p align="center">
-  <img src="docs/images/yellowcard-hardware-front.jpg" width="280">
-  <img src="docs/images/yellowcard-hardware-back.jpg" width="280">
+  <img src="docs/images/hardware-front.jpg" width="280">
+  <img src="docs/images/hardware-back.jpg" width="280">
 </p>
 
 See [Hardware documentation](docs/hardware.md) for the validated board,
