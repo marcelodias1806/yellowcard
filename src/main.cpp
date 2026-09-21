@@ -3,6 +3,7 @@
 
 #include "app_ui.h"
 #include "lvgl_port.h"
+#include "wifi_manager.h"
 
 namespace {
 
@@ -43,17 +44,23 @@ void printHardwareProbe() {
   Serial.println("============================");
 }
 
+void onWifiStatusChanged(bool online) { AppUi::setOnline(online); }
+
 }  // namespace
 
 void setup() {
   Serial.begin(115200);
   delay(500);
+  Serial.println("Firmware: YellowCard F4-B");
   printHardwareProbe();
   LvglPort::begin();
   AppUi::create();
+  WifiManager::begin(onWifiStatusChanged);
 }
 
 void loop() {
+  WifiManager::update();
+  AppUi::update();
   LvglPort::runOnce();
   delay(5);
 }

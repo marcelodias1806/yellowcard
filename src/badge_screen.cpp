@@ -5,13 +5,14 @@
 
 #include <cstring>
 
+#include "rf_scanner_screen.h"
+
 namespace {
 
 // Change this single constant to point the badge QR Code to another contact URL.
 constexpr char kQrContactUrl[] = "https://tecnocorp.com.br/marcelo";
 constexpr char kLinkedInShort[] = "linkedin.com/in/mdiasx";
 constexpr char kInstagramShort[] = "instagram.com/binbash.sh";
-constexpr char kFirmwareVersion[] = "YellowCard F2";
 
 constexpr lv_coord_t kQrSize = 116;
 constexpr lv_coord_t kQrPanelSize = 148;
@@ -25,6 +26,8 @@ constexpr uint32_t kColorMuted = 0x94A3B8;
 
 lv_obj_t *mainScreen = nullptr;
 lv_obj_t *contactsScreen = nullptr;
+lv_obj_t *mainNetworkStatus = nullptr;
+lv_obj_t *contactsNetworkStatus = nullptr;
 
 void styleScreen(lv_obj_t *screen) {
   lv_obj_clear_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
@@ -45,10 +48,12 @@ lv_obj_t *createLabel(lv_obj_t *parent, const char *text,
 }
 
 lv_obj_t *createButton(lv_obj_t *parent, const char *text, int16_t y,
-                       lv_event_cb_t callback) {
+                       lv_event_cb_t callback, lv_coord_t width = 154,
+                       int16_t x = 0,
+                       const lv_font_t *font = &lv_font_montserrat_16) {
   lv_obj_t *button = lv_btn_create(parent);
-  lv_obj_set_size(button, 154, 40);
-  lv_obj_align(button, LV_ALIGN_TOP_MID, 0, y);
+  lv_obj_set_size(button, width, 40);
+  lv_obj_align(button, LV_ALIGN_TOP_MID, x, y);
   lv_obj_set_style_radius(button, 8, LV_PART_MAIN);
   lv_obj_set_style_bg_color(button, lv_color_hex(kColorYellowDark),
                             LV_PART_MAIN);
@@ -56,15 +61,22 @@ lv_obj_t *createButton(lv_obj_t *parent, const char *text, int16_t y,
 
   lv_obj_t *label = lv_label_create(button);
   lv_label_set_text(label, text);
-  lv_obj_set_style_text_font(label, &lv_font_montserrat_16, LV_PART_MAIN);
+  lv_obj_set_style_text_font(label, font, LV_PART_MAIN);
   lv_obj_set_style_text_color(label, lv_color_hex(kColorText), LV_PART_MAIN);
   lv_obj_center(label);
   return button;
 }
 
 void logScreenChange(const char *screenName) {
-  Serial.printf("F2 screen=%s free_heap=%u min_free_heap=%u\n", screenName,
+  Serial.printf("F4 screen=%s free_heap=%u min_free_heap=%u\n", screenName,
                 ESP.getFreeHeap(), ESP.getMinFreeHeap());
+}
+
+void updateNetworkLabel(lv_obj_t *label, bool online) {
+  if (label == nullptr) return;
+  lv_label_set_text(label, online ? "ONLINE" : "OFFLINE");
+  lv_obj_set_style_text_color(
+      label, lv_color_hex(online ? 0x4ADE80 : 0xF59E0B), LV_PART_MAIN);
 }
 
 void showContacts(lv_event_t *event) {
@@ -77,6 +89,11 @@ void showBadge(lv_event_t *event) {
   if (lv_event_get_code(event) != LV_EVENT_CLICKED) return;
   lv_scr_load(mainScreen);
   logScreenChange("badge");
+}
+
+void showRfScanner(lv_event_t *event) {
+  if (lv_event_get_code(event) != LV_EVENT_CLICKED) return;
+  RfScannerScreen::showOverview();
 }
 
 void createQrCode(lv_obj_t *parent) {
@@ -101,7 +118,7 @@ void createQrCode(lv_obj_t *parent) {
   const lv_res_t result =
       lv_qrcode_update(qrcode, kQrContactUrl, strlen(kQrContactUrl));
   if (result != LV_RES_OK) {
-    Serial.println("F2 QR generation failed");
+    Serial.println("F4 QR generation failed");
   }
 }
 
@@ -136,34 +153,39 @@ void buildMainScreen() {
   mainScreen = lv_scr_act();
   styleScreen(mainScreen);
 
-  createLabel(mainScreen, "YELLOWCARD / TECNOCORP", &lv_font_montserrat_14,
-              kColorYellow, 8);
   createLabel(mainScreen, "Marcelo Dias", &lv_font_montserrat_24, kColorText,
-              33);
+              25);
   createLabel(mainScreen, "Cloud & Cybersecurity", &lv_font_montserrat_14,
-              kColorMuted, 67);
+              kColorMuted, 59);
+
+  mainNetworkStatus = createLabel(mainScreen, "OFFLINE",
+                                  &lv_font_montserrat_14, 0xF59E0B, 0);
+  lv_obj_align(mainNetworkStatus, LV_ALIGN_TOP_RIGHT, -8, 5);
 
   createQrCode(mainScreen);
   createLabel(mainScreen, "in/mdiasx  |  @binbash.sh", &lv_font_montserrat_14,
               kColorMuted, 237);
-  createButton(mainScreen, "CONTATOS", 259, showContacts);
-  createLabel(mainScreen, kFirmwareVersion, &lv_font_montserrat_14,
-              0x52637A, 301);
+  createButton(mainScreen, "CONTACTS", 259, showContacts, 112, -60,
+               &lv_font_montserrat_14);
+  createButton(mainScreen, "RF", 259, showRfScanner, 112, 60,
+               &lv_font_montserrat_14);
 }
 
 void buildContactsScreen() {
   contactsScreen = lv_obj_create(nullptr);
   styleScreen(contactsScreen);
 
-  createLabel(contactsScreen, "CONTATOS", &lv_font_montserrat_20,
+  createLabel(contactsScreen, "CONTACTS", &lv_font_montserrat_20,
               kColorYellow, 14);
   createLabel(contactsScreen, "Marcelo Dias", &lv_font_montserrat_16,
               kColorText, 47);
   createContactCard(contactsScreen, "LINKEDIN", kLinkedInShort, 78);
   createContactCard(contactsScreen, "INSTAGRAM", kInstagramShort, 153);
-  createButton(contactsScreen, "VOLTAR", 242, showBadge);
-  createLabel(contactsScreen, kFirmwareVersion, &lv_font_montserrat_14,
-              0x52637A, 301);
+  createButton(contactsScreen, "BACK", 242, showBadge);
+
+  contactsNetworkStatus = createLabel(contactsScreen, "OFFLINE",
+                                      &lv_font_montserrat_14, 0xF59E0B, 0);
+  lv_obj_align(contactsNetworkStatus, LV_ALIGN_BOTTOM_RIGHT, -8, -6);
 }
 
 }  // namespace
@@ -175,8 +197,18 @@ void create() {
   buildContactsScreen();
   lv_scr_load(mainScreen);
 
-  Serial.printf("F2 badge ready. QR=%s free_heap=%u min_free_heap=%u\n",
+  Serial.printf("F4-B badge ready. QR=%s free_heap=%u min_free_heap=%u\n",
                 kQrContactUrl, ESP.getFreeHeap(), ESP.getMinFreeHeap());
+}
+
+void show() {
+  lv_scr_load(mainScreen);
+  logScreenChange("badge");
+}
+
+void setOnline(bool online) {
+  updateNetworkLabel(mainNetworkStatus, online);
+  updateNetworkLabel(contactsNetworkStatus, online);
 }
 
 }  // namespace BadgeScreen
